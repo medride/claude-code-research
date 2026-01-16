@@ -7,6 +7,12 @@ description: Design resource-oriented APIs following patterns from "API Design P
 
 This skill helps you design consistent, scalable, and flexible APIs following the patterns from **"API Design Patterns" by JJ Geewax** and Google's API Improvement Proposals (AIP).
 
+## Additional Resources
+
+- **patterns-reference.md** - Deep dives into each pattern with trade-offs and implementation details
+- **templates/openapi-template.yaml** - OpenAPI 3.1 template following these patterns
+- **examples/task-management-api.yaml** - Complete example API design
+
 ---
 
 ## Core Philosophy
