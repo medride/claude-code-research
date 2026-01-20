@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.10" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Core\NemtPlatform.Application\NemtPlatform.Application.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\NemtPlatform.Infrastructure\NemtPlatform.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\NemtPlatform.Infrastructure.Identity\NemtPlatform.Infrastructure.Identity.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\NemtPlatform.Infrastructure.MultiTenancy\NemtPlatform.Infrastructure.MultiTenancy.csproj" />
+  </ItemGroup>
+
+</Project>
