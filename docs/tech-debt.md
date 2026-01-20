@@ -27,7 +27,36 @@ Track known technical debt items for future resolution.
 
 | Item | Location | Description | Added |
 |------|----------|-------------|-------|
-| - | - | No medium priority debt | - |
+| EF Core InMemory Test Failures | Infrastructure.Tests, Api.Tests | See details below | 2026-01-20 |
+
+### EF Core InMemory Provider Limitation
+
+**Affected Tests:**
+- `NemtPlatform.Infrastructure.Tests` - 15/16 failing
+- `NemtPlatform.Api.Tests` - 2/15 failing, 13 skipped
+
+**Root Cause:**
+The `TenantSettings` owned type contains nested owned types (`RegionalSettings`, `BrandingSettings`, `InspectionSettings`) which the EF Core InMemory provider cannot properly configure. This is a known limitation of the InMemory provider with complex owned type hierarchies.
+
+**Impact:**
+- Domain tests (47) and Application tests (11) pass - core logic is validated
+- Infrastructure and API integration tests are scaffolded but fail at DbContext initialization
+
+**Recommended Fix:**
+Switch from EF Core InMemory to SQLite in-memory for integration tests:
+
+```csharp
+// In test setup, replace:
+options.UseInMemoryDatabase("TestDb");
+
+// With:
+options.UseSqlite("DataSource=:memory:");
+```
+
+Required package: `Microsoft.EntityFrameworkCore.Sqlite`
+
+**Alternative:**
+Accept scaffolded tests as templates and configure with a real test database (SQL Server LocalDB or containerized PostgreSQL).
 
 ---
 
