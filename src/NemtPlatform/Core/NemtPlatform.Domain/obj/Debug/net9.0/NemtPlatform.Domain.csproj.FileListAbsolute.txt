@@ -1,0 +1,12 @@
+C:\Users\Saul Francis\Documents\GitHub\claude-code-research\src\NemtPlatform\Core\NemtPlatform.Domain\bin\Debug\net9.0\NemtPlatform.Domain.deps.json
+C:\Users\Saul Francis\Documents\GitHub\claude-code-research\src\NemtPlatform\Core\NemtPlatform.Domain\bin\Debug\net9.0\NemtPlatform.Domain.dll
+C:\Users\Saul Francis\Documents\GitHub\claude-code-research\src\NemtPlatform\Core\NemtPlatform.Domain\bin\Debug\net9.0\NemtPlatform.Domain.pdb
+C:\Users\Saul Francis\Documents\GitHub\claude-code-research\src\NemtPlatform\Core\NemtPlatform.Domain\obj\Debug\net9.0\NemtPlatform.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Saul Francis\Documents\GitHub\claude-code-research\src\NemtPlatform\Core\NemtPlatform.Domain\obj\Debug\net9.0\NemtPlatform.Domain.AssemblyInfoInputs.cache
+C:\Users\Saul Francis\Documents\GitHub\claude-code-research\src\NemtPlatform\Core\NemtPlatform.Domain\obj\Debug\net9.0\NemtPlatform.Domain.AssemblyInfo.cs
+C:\Users\Saul Francis\Documents\GitHub\claude-code-research\src\NemtPlatform\Core\NemtPlatform.Domain\obj\Debug\net9.0\NemtPlatform.Domain.csproj.CoreCompileInputs.cache
+C:\Users\Saul Francis\Documents\GitHub\claude-code-research\src\NemtPlatform\Core\NemtPlatform.Domain\obj\Debug\net9.0\NemtPlatform.Domain.sourcelink.json
+C:\Users\Saul Francis\Documents\GitHub\claude-code-research\src\NemtPlatform\Core\NemtPlatform.Domain\obj\Debug\net9.0\NemtPlatform.Domain.dll
+C:\Users\Saul Francis\Documents\GitHub\claude-code-research\src\NemtPlatform\Core\NemtPlatform.Domain\obj\Debug\net9.0\refint\NemtPlatform.Domain.dll
+C:\Users\Saul Francis\Documents\GitHub\claude-code-research\src\NemtPlatform\Core\NemtPlatform.Domain\obj\Debug\net9.0\NemtPlatform.Domain.pdb
+C:\Users\Saul Francis\Documents\GitHub\claude-code-research\src\NemtPlatform\Core\NemtPlatform.Domain\obj\Debug\net9.0\ref\NemtPlatform.Domain.dll
