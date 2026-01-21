@@ -402,6 +402,75 @@ public class NemtPlatformDbContext : DbContext
         // Apply all IEntityTypeConfiguration implementations from this assembly
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(NemtPlatformDbContext).Assembly);
 
+        // Ignore value object types that are only used within JSON columns to prevent
+        // EF Core from trying to configure them as separate entities. These types are
+        // serialized as part of the parent's JSON column and don't need entity configuration.
+
+        // Journey and Standing Order related
+        modelBuilder.Ignore<Domain.Common.ValueObjects.JourneyLeg>();
+        modelBuilder.Ignore<Domain.Common.ValueObjects.LegTransition>();
+        modelBuilder.Ignore<Domain.Common.ValueObjects.JourneyTemplate>();
+        modelBuilder.Ignore<Domain.Common.ValueObjects.JourneyLegTemplate>();
+        modelBuilder.Ignore<Domain.Common.ValueObjects.StopTemplate>();
+
+        // Procedure related
+        modelBuilder.Ignore<Domain.Common.ValueObjects.ProcedureRule>();
+        modelBuilder.Ignore<Domain.Common.ValueObjects.ProcedureOverrides>();
+
+        // Constraints related
+        modelBuilder.Ignore<Domain.Common.ValueObjects.TripConstraints>();
+        modelBuilder.Ignore<Domain.Common.ValueObjects.ConstraintSet>();
+        modelBuilder.Ignore<Domain.Common.ValueObjects.DriverConstraints>();
+        modelBuilder.Ignore<Domain.Common.ValueObjects.VehicleConstraints>();
+
+        // Directions and route related
+        modelBuilder.Ignore<Domain.Common.ValueObjects.DirectionsData>();
+        modelBuilder.Ignore<Domain.Common.ValueObjects.Distance>();
+        modelBuilder.Ignore<Domain.Common.ValueObjects.Duration>();
+
+        // View and configuration related
+        modelBuilder.Ignore<Domain.Common.ValueObjects.ViewPreferences>();
+        modelBuilder.Ignore<Domain.Common.ValueObjects.SortingState>();
+
+        // Compliance and inspection related
+        modelBuilder.Ignore<Domain.Common.ValueObjects.ChecklistItem>();
+        modelBuilder.Ignore<Domain.Common.ValueObjects.InspectionDefect>();
+
+        // Billing related
+        modelBuilder.Ignore<Domain.Common.ValueObjects.ClaimLineItem>();
+        modelBuilder.Ignore<Domain.Common.ValueObjects.RemittanceAdjustment>();
+        modelBuilder.Ignore<Domain.Common.ValueObjects.ServiceLevelAgreement>();
+        modelBuilder.Ignore<Domain.Common.ValueObjects.AuthorizationLimits>();
+        modelBuilder.Ignore<Domain.Common.ValueObjects.AuthorizedDestination>();
+
+        // Fleet related
+        modelBuilder.Ignore<Domain.Common.ValueObjects.MedicalCapabilities>();
+        modelBuilder.Ignore<Domain.Common.ValueObjects.MaintenanceCosts>();
+        modelBuilder.Ignore<Domain.Common.ValueObjects.GeoJsonPolygon>();
+
+        // Identity related
+        modelBuilder.Ignore<Domain.Common.ValueObjects.DriverSkill>();
+        modelBuilder.Ignore<Domain.Common.ValueObjects.DriverPerformanceMetrics>();
+
+        // Shift and operations related
+        modelBuilder.Ignore<Domain.Common.ValueObjects.ShiftPersonnel>();
+        modelBuilder.Ignore<Domain.Common.ValueObjects.TimeWindow>();
+
+        // Stop and execution related
+        modelBuilder.Ignore<Domain.Entities.Execution.StopReconciliation>();
+        modelBuilder.Ignore<Domain.Entities.Operations.BaseStop>();
+        modelBuilder.Ignore<Domain.Entities.Operations.PassengerStop>();
+        modelBuilder.Ignore<Domain.Entities.Operations.DriverServiceStop>();
+
+        // Passenger related
+        modelBuilder.Ignore<Domain.Common.ValueObjects.NotificationSettings>();
+        modelBuilder.Ignore<Domain.Common.ValueObjects.NotificationPreferences>();
+        modelBuilder.Ignore<Domain.Common.ValueObjects.QuietHours>();
+        modelBuilder.Ignore<Domain.Common.ValueObjects.GuardianPermissions>();
+        modelBuilder.Ignore<Domain.Common.ValueObjects.Verification>();
+        modelBuilder.Ignore<Domain.Common.ValueObjects.HandOffRecipient>();
+        modelBuilder.Ignore<Domain.Common.ValueObjects.ScannedData>();
+
         // Note: Global query filters for multi-tenancy are applied in individual
         // entity configurations rather than here to allow for more granular control
         // and easier testing of tenant isolation.

@@ -54,5 +54,5 @@ public class Shift : TenantEntity
     /// Examples include meal breaks, refueling, or maintenance stops.
     /// Optional field.
     /// </summary>
-    public List<object>? RequiredStops { get; set; }
+    public List<DriverServiceStop>? RequiredStops { get; set; }
 }

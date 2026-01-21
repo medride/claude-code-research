@@ -3,6 +3,7 @@ namespace NemtPlatform.Infrastructure.Persistence.Configurations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using NemtPlatform.Domain.Entities.Fleet;
+using NemtPlatform.Domain.Common.ValueObjects;
 
 /// <summary>
 /// Entity configuration for the Vehicle entity.
@@ -73,19 +74,17 @@ public class VehicleConfiguration : TenantEntityConfiguration<Vehicle>
                 .IsRequired();
         });
 
-        // Owned type: MedicalCapabilities
-        builder.OwnsOne(e => e.MedicalCapabilities, medical =>
-        {
-            medical.Property(m => m.LevelOfService)
-                .HasConversion<string>()
-                .HasMaxLength(20);
+        // MedicalCapabilities? as JSON
+        builder.Property(e => e.MedicalCapabilities)
+            .HasConversion(
+                v => v == null ? null : System.Text.Json.JsonSerializer.Serialize(v, (System.Text.Json.JsonSerializerOptions?)null),
+                v => v == null ? null : System.Text.Json.JsonSerializer.Deserialize<MedicalCapabilities>(v, (System.Text.Json.JsonSerializerOptions?)null));
 
-            // OnboardEquipmentIds list will be serialized as JSON
-            // EF Core 5+ handles this automatically for complex types
-        });
-
-        // VehicleAttributes as JSON collection
-        // EF Core will handle List<string> serialization automatically in modern versions
+        // List<string>? as JSON
+        builder.Property(e => e.VehicleAttributes)
+            .HasConversion(
+                v => v == null ? null : System.Text.Json.JsonSerializer.Serialize(v, (System.Text.Json.JsonSerializerOptions?)null),
+                v => v == null ? null : System.Text.Json.JsonSerializer.Deserialize<List<string>>(v, (System.Text.Json.JsonSerializerOptions?)null));
 
         // Indexes
         builder.HasIndex(e => e.LicensePlate)

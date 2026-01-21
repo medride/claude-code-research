@@ -3427,35 +3427,7 @@ For new team members:
 | **.claudeignore** | File listing paths Claude should not read |
 | **Extended Thinking** | Feature allowing Claude to reason step-by-step before responding |
 
----
 
-## Team Adoption Checklist
-
-### Week 1: Foundation
-- [ ] All team members have Claude Code installed and authenticated
-- [ ] CLAUDE.md created for main project (< 2,500 tokens)
-- [ ] Dangerous commands denied in settings.json
-- [ ] Everyone reads this guide
-
-### Week 2: Commands & Workflow
-- [ ] `/catch-up` command created
-- [ ] `/review` command created
-- [ ] `/simplify` command created
-- [ ] Team practices plan-execute-verify workflow
-
-### Week 3: Advanced Features
-- [ ] Simplifier sub-agent configured
-- [ ] Verification sub-agent configured
-- [ ] Post-write formatting hook configured
-- [ ] .claudeignore set up for sensitive files
-
-### Week 4: Optimization
-- [ ] First team retrospective on Claude usage
-- [ ] CLAUDE.md refined based on learnings
-- [ ] Shared command library established
-- [ ] Cost monitoring in place
-
----
 
 *Version 1.0 - January 2026*
 *Maintained by: [Your Team]*

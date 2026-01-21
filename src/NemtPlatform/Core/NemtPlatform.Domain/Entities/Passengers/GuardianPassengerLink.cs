@@ -35,11 +35,7 @@ public class GuardianPassengerLink : TenantEntity
     /// Controls what actions the guardian can perform (scheduling, billing, viewing history)
     /// and whether they receive notifications for trip events.
     /// </summary>
-    public GuardianPermissions Permissions { get; set; } = new(
-        CanManageSchedule: false,
-        CanManageBilling: false,
-        CanViewHistory: false,
-        IsPrimaryContact: false);
+    public GuardianPermissions Permissions { get; set; } = new();
 
     /// <summary>
     /// Gets or sets the notification preferences for this guardian relationship.
