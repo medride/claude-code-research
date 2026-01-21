@@ -6,6 +6,21 @@ using NemtPlatform.Domain.Common.Enums;
 /// Represents user preferences for receiving notifications.
 /// Defines communication channels and optional quiet hours.
 /// </summary>
-/// <param name="Channels">The list of notification channels the user wants to receive notifications through.</param>
-/// <param name="QuietHours">Optional time range during which notifications should not be sent.</param>
-public record NotificationPreferences(List<NotificationChannel> Channels, QuietHours? QuietHours = null);
+public record NotificationPreferences
+{
+    /// <summary>The list of notification channels the user wants to receive notifications through.</summary>
+    public List<NotificationChannel> Channels { get; init; } = new();
+
+    /// <summary>Optional time range during which notifications should not be sent.</summary>
+    public QuietHours? QuietHours { get; init; }
+
+    /// <summary>Parameterless constructor for EF Core and JSON serialization.</summary>
+    public NotificationPreferences() { }
+
+    /// <summary>Creates a new NotificationPreferences with the specified values.</summary>
+    public NotificationPreferences(List<NotificationChannel> channels, QuietHours? quietHours = null)
+    {
+        Channels = channels;
+        QuietHours = quietHours;
+    }
+}

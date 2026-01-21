@@ -4,11 +4,34 @@ namespace NemtPlatform.Domain.Common.ValueObjects;
 /// Represents the recipient who received the passenger at the end of a trip segment.
 /// Used for accountability and compliance tracking in passenger handoffs.
 /// </summary>
-/// <param name="Type">The type of recipient who received the passenger.</param>
-/// <param name="Name">The optional name of the recipient. May be null for self-handoffs.</param>
-public record HandOffRecipient(
-    HandOffRecipientType Type,
-    string? Name = null);
+public record HandOffRecipient
+{
+    /// <summary>
+    /// The type of recipient who received the passenger.
+    /// </summary>
+    public HandOffRecipientType Type { get; init; }
+
+    /// <summary>
+    /// The optional name of the recipient. May be null for self-handoffs.
+    /// </summary>
+    public string? Name { get; init; }
+
+    /// <summary>
+    /// Parameterless constructor for EF Core and JSON serialization.
+    /// </summary>
+    public HandOffRecipient()
+    {
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="HandOffRecipient"/> class.
+    /// </summary>
+    public HandOffRecipient(HandOffRecipientType type, string? name = null)
+    {
+        Type = type;
+        Name = name;
+    }
+}
 
 /// <summary>
 /// Represents the type of individual or entity who received a passenger at dropoff.

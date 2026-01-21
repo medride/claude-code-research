@@ -4,10 +4,37 @@ namespace NemtPlatform.Domain.Common.ValueObjects;
 /// Represents the passenger capacity requirements for a NEMT vehicle.
 /// Defines how many spaces are needed for different mobility requirements.
 /// </summary>
-/// <param name="WheelchairSpaces">Number of wheelchair-accessible spaces required. Default is 0.</param>
-/// <param name="AmbulatorySeats">Number of standard ambulatory passenger seats required. Default is 0.</param>
-/// <param name="StretcherCapacity">Number of stretcher/gurney spaces required. Default is 0.</param>
-public record CapacityRequirements(
-    int WheelchairSpaces = 0,
-    int AmbulatorySeats = 0,
-    int StretcherCapacity = 0);
+public record CapacityRequirements
+{
+    /// <summary>
+    /// Number of wheelchair-accessible spaces required.
+    /// </summary>
+    public int WheelchairSpaces { get; init; }
+
+    /// <summary>
+    /// Number of standard ambulatory passenger seats required.
+    /// </summary>
+    public int AmbulatorySeats { get; init; }
+
+    /// <summary>
+    /// Number of stretcher/gurney spaces required.
+    /// </summary>
+    public int StretcherCapacity { get; init; }
+
+    /// <summary>
+    /// Parameterless constructor for EF Core and JSON serialization.
+    /// </summary>
+    public CapacityRequirements()
+    {
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="CapacityRequirements"/> class.
+    /// </summary>
+    public CapacityRequirements(int wheelchairSpaces = 0, int ambulatorySeats = 0, int stretcherCapacity = 0)
+    {
+        WheelchairSpaces = wheelchairSpaces;
+        AmbulatorySeats = ambulatorySeats;
+        StretcherCapacity = stretcherCapacity;
+    }
+}
