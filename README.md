@@ -8,24 +8,6 @@ This repository serves two purposes:
 
 ---
 
-## Quick Start
-
-### Using as a Template
-
-```bash
-# Clone the repository
-git clone https://github.com/your-org/claude-code-research.git my-project
-cd my-project
-
-# Copy templates to set up your project
-cp templates/CLAUDE.md.template CLAUDE.md
-cp templates/claudeignore.template .claudeignore
-
-# Edit CLAUDE.md with your project details
-# Start using Claude Code
-claude
-```
-
 ### Using as a Reference
 
 Browse the `reference/` folder for comprehensive guides:
@@ -161,68 +143,3 @@ The #1 priority when working with Claude Code. This repository emphasizes:
 3. **Commands** - User-invoked workflows (loads when called)
 4. **MCPs** - External data access (adds tools to every request)
 
----
-
-## Getting Started
-
-### For New Projects
-
-1. **Copy the essentials:**
-   ```bash
-   cp templates/CLAUDE.md.template your-project/CLAUDE.md
-   cp templates/claudeignore.template your-project/.claudeignore
-   mkdir -p your-project/.claude/commands
-   cp .claude/commands/* your-project/.claude/commands/
-   ```
-
-2. **Customize CLAUDE.md** for your project's tech stack and conventions
-
-3. **Select relevant skills** from `.claude/skills/` and copy them
-
-### For Existing Projects
-
-1. **Read the workflow guide:** [`reference/workflow-guide.md`](reference/workflow-guide.md)
-
-2. **Start with commands:** Copy the commands you need most
-
-3. **Add incrementally:** Don't try to adopt everything at once
-
----
-
-## Team Adoption
-
-### Week 1: Foundation
-- [ ] All team members have Claude Code installed
-- [ ] CLAUDE.md created for your project
-- [ ] Basic permissions configured
-
-### Week 2: Commands
-- [ ] `/catch-up` and `/review` commands deployed
-- [ ] Team practices plan-execute-verify workflow
-
-### Week 3: Advanced
-- [ ] Skills configured for team patterns
-- [ ] Hooks for auto-formatting
-
-### Week 4: Optimization
-- [ ] First retrospective on Claude usage
-- [ ] CLAUDE.md refined based on learnings
-
----
-
-## Contributing
-
-Improvements welcome! Please:
-1. Keep additions focused and context-efficient
-2. Test commands/skills before submitting
-3. Update relevant documentation
-
----
-
-## License
-
-MIT
-
----
-
-*Maintained by the Claude Code community*

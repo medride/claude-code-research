@@ -3,7 +3,19 @@
     "allow": [
       "WebSearch",
       "mcp__plugin_context7_context7__query-docs",
-      "Bash(git mv:*)"
+      "Bash(git mv:*)",
+      "Bash(dotnet new:*)",
+      "Bash(dotnet sln add:*)",
+      "Bash(dotnet add:*)",
+      "Bash(dir:*)",
+      "Bash(dotnet build:*)",
+      "Bash(test:*)",
+      "Bash(findstr:*)",
+      "Bash(find:*)",
+      "Bash(dotnet clean:*)",
+      "Bash(ls:*)",
+      "Skill(git-commit)",
+      "Bash(git add:*)"
     ]
   },
   "enabledPlugins": {
