@@ -45,7 +45,7 @@ public class PassengerConfiguration : TenantEntityConfiguration<Passenger>
             .HasConversion<string>()
             .HasMaxLength(20);
 
-        // Owned type: Name (PersonName)
+        // Owned type: Name (PersonName) - simple flat structure
         builder.OwnsOne(e => e.Name, name =>
         {
             name.Property(n => n.First)
@@ -59,12 +59,27 @@ public class PassengerConfiguration : TenantEntityConfiguration<Passenger>
             // Note: FullName is a computed property, not stored
         });
 
-        // Owned type: Constraints (TripConstraints)
-        // TripConstraints is a complex nested structure that will be stored as JSON
-        // EF Core will handle serialization automatically in modern versions
-
-        // EmergencyContactIds as JSON collection
-        // EF Core will handle List<string> serialization automatically in modern versions
+        // Owned type: Constraints (TripConstraints) - complex nested structure stored as JSON
+        // Must explicitly configure nested owned types within the JSON structure
+        builder.OwnsOne(e => e.Constraints, constraints =>
+        {
+            constraints.ToJson();
+            constraints.OwnsOne(c => c.Preferences, pref =>
+            {
+                pref.OwnsOne(p => p.Driver);
+                pref.OwnsOne(p => p.Vehicle);
+            });
+            constraints.OwnsOne(c => c.Requirements, req =>
+            {
+                req.OwnsOne(r => r.Driver);
+                req.OwnsOne(r => r.Vehicle);
+            });
+            constraints.OwnsOne(c => c.Prohibitions, proh =>
+            {
+                proh.OwnsOne(p => p.Driver);
+                proh.OwnsOne(p => p.Vehicle);
+            });
+        });
 
         // Indexes
         builder.HasIndex(e => e.UserId);

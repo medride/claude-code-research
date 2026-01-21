@@ -68,7 +68,7 @@ public class TripConfiguration : TenantEntityConfiguration<Trip>
         builder.Property(e => e.CancellationReason)
             .HasMaxLength(500);
 
-        // Owned type: CapacityRequirements
+        // Owned type: CapacityRequirements - simple flat structure
         builder.OwnsOne(e => e.CapacityRequirements, capacity =>
         {
             capacity.Property(c => c.WheelchairSpaces);
@@ -76,41 +76,42 @@ public class TripConfiguration : TenantEntityConfiguration<Trip>
             capacity.Property(c => c.StretcherCapacity);
         });
 
-        // Owned type: PlannedRoute (DirectionsData)
+        // Owned type: PlannedRoute (DirectionsData) - complex nested structure stored as JSON
         builder.OwnsOne(e => e.PlannedRoute, route =>
         {
-            route.Property(r => r.EncodedPolyline)
-                .HasMaxLength(5000);
+            route.ToJson();
+        });
 
-            route.OwnsOne(r => r.Distance, distance =>
+        // Owned type: Constraints (TripConstraints) - complex nested structure stored as JSON
+        // Must explicitly configure nested owned types within the JSON structure
+        builder.OwnsOne(e => e.Constraints, constraints =>
+        {
+            constraints.ToJson();
+            constraints.OwnsOne(c => c.Preferences, pref =>
             {
-                distance.Property(d => d.Text)
-                    .HasMaxLength(50);
-
-                distance.Property(d => d.ValueInMeters);
+                pref.OwnsOne(p => p.Driver);
+                pref.OwnsOne(p => p.Vehicle);
             });
-
-            route.OwnsOne(r => r.Duration, duration =>
+            constraints.OwnsOne(c => c.Requirements, req =>
             {
-                duration.Property(d => d.Text)
-                    .HasMaxLength(50);
-
-                duration.Property(d => d.ValueInSeconds);
+                req.OwnsOne(r => r.Driver);
+                req.OwnsOne(r => r.Vehicle);
+            });
+            constraints.OwnsOne(c => c.Prohibitions, proh =>
+            {
+                proh.OwnsOne(p => p.Driver);
+                proh.OwnsOne(p => p.Vehicle);
             });
         });
 
-        // Owned type: Constraints (TripConstraints)
-        // TripConstraints is a complex nested structure that will be stored as JSON
-        // EF Core will handle serialization automatically in modern versions
-
-        // Owned type: ExternalIds
+        // Owned type: ExternalIds - simple flat structure
         builder.OwnsOne(e => e.ExternalIds, externalIds =>
         {
             externalIds.Property(ext => ext.BrokerTripId)
                 .HasMaxLength(100);
         });
 
-        // Owned type: PostTripDirective
+        // Owned type: PostTripDirective - simple flat structure
         builder.OwnsOne(e => e.PostTripDirective, directive =>
         {
             directive.Property(d => d.Type)
@@ -122,82 +123,14 @@ public class TripConfiguration : TenantEntityConfiguration<Trip>
                 .HasMaxLength(50);
         });
 
-        // Owned many: Stops (PassengerStop collection)
+        // Owned many: Stops - stored as JSON array to avoid complex nested mapping
+        // Must explicitly configure nested owned types within the JSON structure
         builder.OwnsMany(e => e.Stops, stop =>
         {
-            stop.ToTable("TripStops");
-
-            // Foreign key back to Trip
-            stop.WithOwner()
-                .HasForeignKey("TripId");
-
-            // Primary key for the stop
-            stop.HasKey("Id");
-
-            stop.Property("Id")
-                .HasMaxLength(50);
-
-            // Stop type and status as strings
-            stop.Property(s => s.Type)
-                .HasConversion<string>()
-                .HasMaxLength(20);
-
-            stop.Property(s => s.Status)
-                .HasConversion<string>()
-                .HasMaxLength(30);
-
-            // Foreign keys
-            stop.Property(s => s.PassengerId)
-                .HasMaxLength(50);
-
-            stop.Property(s => s.AccessPointId)
-                .IsRequired()
-                .HasMaxLength(50);
-
-            stop.Property(s => s.PlaceId)
-                .IsRequired()
-                .HasMaxLength(50);
-
-            // Foreign keys from BaseStop
-            stop.Property(s => s.RegionId)
-                .HasMaxLength(50);
-
-            // BaseStop properties
-            stop.Property(s => s.Status)
-                .HasConversion<string>()
-                .HasMaxLength(30);
-
-            stop.Property(s => s.Duration);
-
-            stop.Property(s => s.OperationalNotes)
-                .HasMaxLength(1000);
-
-            stop.Property(s => s.ActualArrivalTime);
-
-            stop.Property(s => s.ActualDepartureTime);
-
-            // TimeWindows will be stored as JSON collection
-            // EF Core will handle serialization automatically
-
-            // Owned type within stop: CapacityDelta
-            stop.OwnsOne(s => s.CapacityDelta, capacity =>
-            {
-                capacity.Property(c => c.WheelchairSpaces);
-                capacity.Property(c => c.AmbulatorySeats);
-                capacity.Property(c => c.StretcherCapacity);
-            });
-
-            // Owned type within stop: ProcedureOverrides
-            stop.OwnsOne(s => s.ProcedureOverrides, overrides =>
-            {
-                // Assuming ProcedureOverrides has lists of procedure IDs
-                // EF Core will serialize lists as JSON by convention in modern versions
-                // If explicit configuration is needed, add it here
-            });
-
-            // Indexes on stops
-            stop.HasIndex(s => s.Type);
-            stop.HasIndex(s => s.Status);
+            stop.ToJson();
+            stop.OwnsMany(s => s.TimeWindows);
+            stop.OwnsOne(s => s.CapacityDelta);
+            stop.OwnsOne(s => s.ProcedureOverrides);
         });
 
         // Indexes on Trip

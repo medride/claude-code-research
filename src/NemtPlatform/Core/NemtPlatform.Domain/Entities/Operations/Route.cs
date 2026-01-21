@@ -36,7 +36,7 @@ public class Route : TenantEntity
     /// Contains a mix of PassengerStop and DriverServiceStop objects.
     /// Required field.
     /// </summary>
-    public List<object> Stops { get; set; } = new();
+    public List<BaseStop> Stops { get; set; } = new();
 
     /// <summary>
     /// Gets or sets the estimated start time for the route.

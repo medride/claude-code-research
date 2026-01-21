@@ -40,7 +40,7 @@ public class TenantConfiguration : IEntityTypeConfiguration<Tenant>
         builder.Property(e => e.UpdatedBy)
             .HasMaxLength(50);
 
-        // Owned type: PrimaryContact
+        // Owned type: PrimaryContact - simple value object, no nesting
         builder.OwnsOne(e => e.PrimaryContact, contact =>
         {
             contact.Property(c => c.Name)
@@ -53,7 +53,7 @@ public class TenantConfiguration : IEntityTypeConfiguration<Tenant>
                 .HasMaxLength(20);
         });
 
-        // Owned type: Address
+        // Owned type: Address - simple value object, no nesting
         builder.OwnsOne(e => e.Address, address =>
         {
             address.Property(a => a.Street)
@@ -69,42 +69,14 @@ public class TenantConfiguration : IEntityTypeConfiguration<Tenant>
                 .HasMaxLength(20);
         });
 
-        // Owned type: Settings with nested owned types
+        // Owned type: Settings - complex nested structure stored as JSON
+        // Must explicitly configure all nested owned types within the JSON
         builder.OwnsOne(e => e.Settings, settings =>
         {
-            // Regional settings
-            settings.OwnsOne(s => s.Regional, regional =>
-            {
-                regional.Property(r => r.Timezone)
-                    .HasMaxLength(50);
-
-                regional.Property(r => r.Currency)
-                    .HasMaxLength(10);
-            });
-
-            // Branding settings
-            settings.OwnsOne(s => s.Branding, branding =>
-            {
-                branding.Property(b => b.LogoUrl)
-                    .HasMaxLength(500);
-
-                branding.Property(b => b.PrimaryColor)
-                    .HasMaxLength(20);
-            });
-
-            // Inspection settings
-            settings.OwnsOne(s => s.Inspections, inspections =>
-            {
-                inspections.Property(i => i.RequirePreShiftInspection);
-
-                inspections.Property(i => i.RequirePostShiftInspection);
-
-                inspections.Property(i => i.DefaultPreShiftTemplateId)
-                    .HasMaxLength(50);
-
-                inspections.Property(i => i.DefaultPostShiftTemplateId)
-                    .HasMaxLength(50);
-            });
+            settings.ToJson();
+            settings.OwnsOne(s => s.Regional);
+            settings.OwnsOne(s => s.Branding);
+            settings.OwnsOne(s => s.Inspections);
         });
 
         // Indexes

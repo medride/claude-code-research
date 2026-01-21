@@ -9,7 +9,32 @@ Track known technical debt items for future resolution.
 
 | Item | Location | Description | Added |
 |------|----------|-------------|-------|
-| - | - | No critical debt | - |
+| EF Core Model Configuration | Domain Model + Infrastructure | 58+ entities/value objects need proper EF Core configuration | 2026-01-21 |
+
+### EF Core Model Configuration Issues
+
+**Full Analysis:** See [ef-core-configuration-issues.md](./ef-core-configuration-issues.md)
+
+**Summary:**
+The domain model has 58+ value objects and entities that require explicit EF Core configuration due to:
+- Complex nested value objects (e.g., `TripConstraints` has 3-level deep nesting)
+- `Dictionary<K,V>` properties that EF Core cannot auto-map
+- `List<T>` collections of value objects needing `OwnsMany()`
+- Same value object type owned by multiple entities (ownership ambiguity)
+
+**Impact:**
+- Infrastructure tests fail at DbContext initialization
+- API integration tests cannot run
+- Cannot generate database migrations
+
+**Root Cause:**
+C# records with positional constructors containing complex types. EF Core cannot bind constructor parameters to navigation properties (owned types).
+
+**Required Fixes:**
+1. Add `modelBuilder.Ignore<T>()` for 13 JSON-only types
+2. Create 15 new `IEntityTypeConfiguration<T>` files
+3. Update 6 existing configurations to use `.ToJson()`
+4. Add value converters for `Dictionary` and `List<Enum>` properties
 
 ---
 
@@ -27,36 +52,7 @@ Track known technical debt items for future resolution.
 
 | Item | Location | Description | Added |
 |------|----------|-------------|-------|
-| EF Core InMemory Test Failures | Infrastructure.Tests, Api.Tests | See details below | 2026-01-20 |
-
-### EF Core InMemory Provider Limitation
-
-**Affected Tests:**
-- `NemtPlatform.Infrastructure.Tests` - 15/16 failing
-- `NemtPlatform.Api.Tests` - 2/15 failing, 13 skipped
-
-**Root Cause:**
-The `TenantSettings` owned type contains nested owned types (`RegionalSettings`, `BrandingSettings`, `InspectionSettings`) which the EF Core InMemory provider cannot properly configure. This is a known limitation of the InMemory provider with complex owned type hierarchies.
-
-**Impact:**
-- Domain tests (47) and Application tests (11) pass - core logic is validated
-- Infrastructure and API integration tests are scaffolded but fail at DbContext initialization
-
-**Recommended Fix:**
-Switch from EF Core InMemory to SQLite in-memory for integration tests:
-
-```csharp
-// In test setup, replace:
-options.UseInMemoryDatabase("TestDb");
-
-// With:
-options.UseSqlite("DataSource=:memory:");
-```
-
-Required package: `Microsoft.EntityFrameworkCore.Sqlite`
-
-**Alternative:**
-Accept scaffolded tests as templates and configure with a real test database (SQL Server LocalDB or containerized PostgreSQL).
+| List<object> placeholders | Route.cs, Shift.cs | `List<object>` should be typed (fixed to `List<BaseStop>` and `List<DriverServiceStop>`) | 2026-01-21 |
 
 ---
 
@@ -74,7 +70,30 @@ Accept scaffolded tests as templates and configure with a real test database (SQ
 
 | Item | Location | Resolution | Date |
 |------|----------|------------|------|
-| - | - | - | - |
+| EF Core InMemory Provider | Infrastructure.Tests | Switched to SQLite in-memory provider | 2026-01-21 |
+| Value Object Constructors | Domain ValueObjects | Added parameterless constructors for EF Core compatibility | 2026-01-21 |
+
+### EF Core InMemory Provider (Resolved)
+
+**Original Issue:**
+The `TenantSettings` owned type contains nested owned types which the EF Core InMemory provider cannot properly configure.
+
+**Resolution:**
+- Switched from `Microsoft.EntityFrameworkCore.InMemory` to `Microsoft.EntityFrameworkCore.Sqlite`
+- Updated test base classes to use SQLite in-memory with proper connection management
+- Created `SqliteTestBase` helper class
+
+**Note:** While the provider switch is complete, the underlying model configuration issues (documented above) still need to be addressed.
+
+### Value Object Constructors (Resolved)
+
+**Original Issue:**
+C# records with positional constructors caused EF Core constructor binding errors.
+
+**Resolution:**
+- Converted 35+ value objects from positional record syntax to property syntax
+- Added parameterless constructors for EF Core and JSON serialization
+- Added parameterized constructors for domain code convenience
 
 ---
 
@@ -93,6 +112,7 @@ When you notice technical debt:
 - Security vulnerabilities
 - Data integrity risks
 - Production stability issues
+- Blocking development/testing
 
 **High:**
 - Performance bottlenecks

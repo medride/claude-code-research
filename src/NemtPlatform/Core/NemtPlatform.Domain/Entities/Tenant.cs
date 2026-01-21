@@ -58,10 +58,28 @@ public enum TenantStatus
 /// <summary>
 /// Contact information for a tenant's primary contact person.
 /// </summary>
-public record TenantContact(
-    string Name,
-    string Email,
-    string Phone);
+public record TenantContact
+{
+    /// <summary>Name of the contact person.</summary>
+    public string Name { get; init; } = string.Empty;
+
+    /// <summary>Email address of the contact.</summary>
+    public string Email { get; init; } = string.Empty;
+
+    /// <summary>Phone number of the contact.</summary>
+    public string Phone { get; init; } = string.Empty;
+
+    /// <summary>Parameterless constructor for EF Core and JSON serialization.</summary>
+    public TenantContact() { }
+
+    /// <summary>Creates a new TenantContact with the specified values.</summary>
+    public TenantContact(string name, string email, string phone)
+    {
+        Name = name;
+        Email = email;
+        Phone = phone;
+    }
+}
 
 /// <summary>
 /// Tenant-wide configuration settings.
@@ -82,27 +100,85 @@ public record TenantSettings
     /// Vehicle inspection requirements.
     /// </summary>
     public InspectionSettings? Inspections { get; init; }
+
+    /// <summary>Parameterless constructor for EF Core and JSON serialization.</summary>
+    public TenantSettings() { }
 }
 
 /// <summary>
 /// Regional configuration for a tenant.
 /// </summary>
-public record RegionalSettings(
-    string Timezone,
-    string Currency = "USD");
+public record RegionalSettings
+{
+    /// <summary>IANA timezone identifier (e.g., "America/New_York").</summary>
+    public string Timezone { get; init; } = string.Empty;
+
+    /// <summary>ISO 4217 currency code (e.g., "USD").</summary>
+    public string Currency { get; init; } = "USD";
+
+    /// <summary>Parameterless constructor for EF Core and JSON serialization.</summary>
+    public RegionalSettings() { }
+
+    /// <summary>Creates a new RegionalSettings with the specified values.</summary>
+    public RegionalSettings(string timezone, string currency = "USD")
+    {
+        Timezone = timezone;
+        Currency = currency;
+    }
+}
 
 /// <summary>
 /// Branding/white-label configuration for a tenant.
 /// </summary>
-public record BrandingSettings(
-    string? LogoUrl = null,
-    string? PrimaryColor = null);
+public record BrandingSettings
+{
+    /// <summary>URL to the tenant's logo image.</summary>
+    public string? LogoUrl { get; init; }
+
+    /// <summary>Primary brand color in hex format (e.g., "#FF5733").</summary>
+    public string? PrimaryColor { get; init; }
+
+    /// <summary>Parameterless constructor for EF Core and JSON serialization.</summary>
+    public BrandingSettings() { }
+
+    /// <summary>Creates a new BrandingSettings with the specified values.</summary>
+    public BrandingSettings(string? logoUrl = null, string? primaryColor = null)
+    {
+        LogoUrl = logoUrl;
+        PrimaryColor = primaryColor;
+    }
+}
 
 /// <summary>
 /// Vehicle inspection configuration for a tenant.
 /// </summary>
-public record InspectionSettings(
-    bool RequirePreShiftInspection = true,
-    bool RequirePostShiftInspection = false,
-    string? DefaultPreShiftTemplateId = null,
-    string? DefaultPostShiftTemplateId = null);
+public record InspectionSettings
+{
+    /// <summary>Whether drivers must complete an inspection before starting a shift.</summary>
+    public bool RequirePreShiftInspection { get; init; } = true;
+
+    /// <summary>Whether drivers must complete an inspection after ending a shift.</summary>
+    public bool RequirePostShiftInspection { get; init; }
+
+    /// <summary>Default inspection template ID for pre-shift inspections.</summary>
+    public string? DefaultPreShiftTemplateId { get; init; }
+
+    /// <summary>Default inspection template ID for post-shift inspections.</summary>
+    public string? DefaultPostShiftTemplateId { get; init; }
+
+    /// <summary>Parameterless constructor for EF Core and JSON serialization.</summary>
+    public InspectionSettings() { }
+
+    /// <summary>Creates a new InspectionSettings with the specified values.</summary>
+    public InspectionSettings(
+        bool requirePreShiftInspection = true,
+        bool requirePostShiftInspection = false,
+        string? defaultPreShiftTemplateId = null,
+        string? defaultPostShiftTemplateId = null)
+    {
+        RequirePreShiftInspection = requirePreShiftInspection;
+        RequirePostShiftInspection = requirePostShiftInspection;
+        DefaultPreShiftTemplateId = defaultPreShiftTemplateId;
+        DefaultPostShiftTemplateId = defaultPostShiftTemplateId;
+    }
+}

@@ -4,7 +4,25 @@ namespace NemtPlatform.Domain.Common.ValueObjects;
 /// Represents specific notification triggers for trip-related events.
 /// Used within GuardianPermissions to control which events trigger notifications.
 /// </summary>
-/// <param name="OnPickup">Whether to send notifications when the passenger is picked up.</param>
-/// <param name="OnDropoff">Whether to send notifications when the passenger is dropped off.</param>
-/// <param name="OnDelay">Whether to send notifications when a trip is delayed.</param>
-public record NotificationSettings(bool OnPickup, bool OnDropoff, bool OnDelay);
+public record NotificationSettings
+{
+    /// <summary>Whether to send notifications when the passenger is picked up.</summary>
+    public bool OnPickup { get; init; }
+
+    /// <summary>Whether to send notifications when the passenger is dropped off.</summary>
+    public bool OnDropoff { get; init; }
+
+    /// <summary>Whether to send notifications when a trip is delayed.</summary>
+    public bool OnDelay { get; init; }
+
+    /// <summary>Parameterless constructor for EF Core and JSON serialization.</summary>
+    public NotificationSettings() { }
+
+    /// <summary>Creates a new NotificationSettings with the specified values.</summary>
+    public NotificationSettings(bool onPickup, bool onDropoff, bool onDelay)
+    {
+        OnPickup = onPickup;
+        OnDropoff = onDropoff;
+        OnDelay = onDelay;
+    }
+}

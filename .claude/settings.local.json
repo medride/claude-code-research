@@ -15,7 +15,10 @@
       "Bash(dotnet clean:*)",
       "Bash(ls:*)",
       "Skill(git-commit)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(dotnet restore:*)",
+      "Bash(grep:*)",
+      "Bash(dotnet test:*)"
     ]
   },
   "enabledPlugins": {

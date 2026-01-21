@@ -4,10 +4,38 @@ namespace NemtPlatform.Domain.Common.ValueObjects;
 /// Represents a destination that is pre-authorized for a passenger's transportation.
 /// Used in authorization records to specify approved locations.
 /// </summary>
-/// <param name="PlaceId">The foreign key to the Place entity representing the authorized destination.</param>
-/// <param name="DocumentationUrl">Optional URL to documentation supporting this authorization.</param>
-/// <param name="Notes">Optional notes about this authorized destination.</param>
-public record AuthorizedDestination(
-    string PlaceId,
-    string? DocumentationUrl = null,
-    string? Notes = null);
+public record AuthorizedDestination
+{
+    /// <summary>
+    /// The foreign key to the Place entity representing the authorized destination.
+    /// </summary>
+    public string PlaceId { get; init; }
+
+    /// <summary>
+    /// Optional URL to documentation supporting this authorization.
+    /// </summary>
+    public string? DocumentationUrl { get; init; }
+
+    /// <summary>
+    /// Optional notes about this authorized destination.
+    /// </summary>
+    public string? Notes { get; init; }
+
+    /// <summary>
+    /// Parameterless constructor for EF Core and JSON serialization.
+    /// </summary>
+    public AuthorizedDestination()
+    {
+        PlaceId = string.Empty;
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="AuthorizedDestination"/> class.
+    /// </summary>
+    public AuthorizedDestination(string placeId, string? documentationUrl = null, string? notes = null)
+    {
+        PlaceId = placeId;
+        DocumentationUrl = documentationUrl;
+        Notes = notes;
+    }
+}

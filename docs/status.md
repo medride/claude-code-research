@@ -1,21 +1,31 @@
 # Project Status
 
 ## Last Updated
-2026-01-20
+2026-01-21
 
 ## Current Focus
-**ALL 12 PHASES COMPLETE** - NEMT Platform Clean Architecture .NET solution is fully scaffolded
+**EF Core Configuration Fixes** - Incremental approach to fix 58+ configuration issues
 
 ## In Progress
-- None currently
+- [ ] Group 1: Tenant entity configuration with ToJson() for TenantSettings
 
 ## Completed Recently
+- [x] **Test Cleanup** (2026-01-21)
+  - Deleted all test files to start fresh with incremental approach
+  - Test projects still exist but are empty
+- [x] **EF Core Analysis** (2026-01-21)
+  - Documented 58+ configuration issues in `docs/ef-core-configuration-issues.md`
+  - Created incremental fix plan in `docs/ef-core-incremental-fix-context.md`
+  - Updated tech-debt.md with critical issues
+- [x] **Value Object Refactoring** (2026-01-21)
+  - Converted 35+ value objects from positional records to property syntax
+  - Added parameterless constructors for EF Core compatibility
 - [x] **Phase 12: Test Projects** - COMPLETE (2026-01-20)
-  - Domain tests: 47 tests passing (value objects, entities, enums)
-  - Application tests: 11 tests passing (CQRS patterns with mocks)
-  - Infrastructure tests: Scaffolded (repository, DbContext tests)
-  - API tests: Scaffolded (health check, endpoint tests)
-  - Test packages: xUnit, Moq, EF Core InMemory, AspNetCore.Mvc.Testing
+  - Domain tests: 47 tests (now deleted for fresh start)
+  - Application tests: 11 tests (now deleted for fresh start)
+  - Infrastructure tests: Scaffolded (now deleted for fresh start)
+  - API tests: Scaffolded (now deleted for fresh start)
+  - Test packages: xUnit, Moq, SQLite, AspNetCore.Mvc.Testing
 - [x] **Phase 11: Infrastructure** - COMPLETE (2026-01-20)
   - NemtPlatformDbContext with 60+ DbSets
   - Multi-tenancy support via ITenantContext
@@ -51,10 +61,14 @@
   - 20+ enums, 8+ value objects, base entity hierarchy
 
 ## Blockers
-- None currently
+- **EF Core Model Configuration** - 58+ entities/value objects need explicit configuration before tests can run
 
 ## Known Issues
-- **EF Core InMemory test failures** - See `docs/tech-debt.md` for details. Infrastructure and API tests need SQLite in-memory instead of EF Core InMemory provider.
+- **EF Core Configuration Required** - See `docs/ef-core-configuration-issues.md` for full analysis
+  - Complex nested value objects need `ToJson()`
+  - Dictionary/List properties need value converters
+  - Same value object owned by multiple entities causes ambiguity
+  - 15 new IEntityTypeConfiguration files needed
 
 ## Decisions Made
 - **Architecture**: Modular Monolith with Clean Architecture
@@ -64,13 +78,11 @@
 - **EF Core**: Version 9.x (compatible with .NET 9.0)
 
 ## Context for Next Session
-- Source file: `entities.ts` (root directory)
-- Target location: `src/NemtPlatform/`
-- Implementation plan: `docs/nemt-implementation-plan.md`
-- **Constraints reference: `docs/nemt-constraints.md`**
-- **ALL 12 PHASES COMPLETE**
-- Solution builds: 0 warnings, 0 errors
-- Tests: 58+ tests passing (Domain: 47, Application: 11)
+- **Start with**: `docs/ef-core-incremental-fix-context.md` - Contains full plan
+- **Reference**: `docs/ef-core-configuration-issues.md` - Detailed analysis
+- **First group**: Tenant entity (simplest, good starting point)
+- **Approach**: Fix one entity group, test it, then move to next
+- Tests have been deleted - recreate `SqliteTestBase.cs` first
 
 ## Notes
 - User requested incremental execution (one phase at a time)
@@ -80,6 +92,18 @@
 ---
 
 ## Session History
+
+### 2026-01-21 - EF Core Configuration Analysis & Reset
+**Focus:** Understanding and documenting EF Core configuration issues
+**Outcome:**
+- Attempted SQLite switch from InMemory provider
+- Discovered root cause: 58+ value objects/entities need explicit EF Core configuration
+- Converted 35+ value objects to property syntax with parameterless constructors
+- Added modelBuilder.Ignore<T>() for 13 JSON-only types
+- Created comprehensive documentation in docs/ef-core-configuration-issues.md
+- Deleted all tests for fresh incremental approach
+- Created context document: docs/ef-core-incremental-fix-context.md
+**Next Steps:** Start with Group 1 (Tenant) in fresh session
 
 ### 2026-01-20 - ALL 12 PHASES COMPLETE
 **Focus:** Building complete Clean Architecture .NET solution

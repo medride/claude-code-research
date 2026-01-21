@@ -4,10 +4,34 @@ namespace NemtPlatform.Domain.Common.ValueObjects;
 /// Represents a date range with start and end timestamps.
 /// Provides helper methods to check if a date falls within the range or if the range has expired.
 /// </summary>
-/// <param name="Start">The start of the date range (inclusive).</param>
-/// <param name="End">The end of the date range (inclusive).</param>
-public record DateRange(DateTimeOffset Start, DateTimeOffset End)
+public record DateRange
 {
+    /// <summary>
+    /// The start of the date range (inclusive).
+    /// </summary>
+    public DateTimeOffset Start { get; init; }
+
+    /// <summary>
+    /// The end of the date range (inclusive).
+    /// </summary>
+    public DateTimeOffset End { get; init; }
+
+    /// <summary>
+    /// Parameterless constructor for EF Core and JSON serialization.
+    /// </summary>
+    public DateRange()
+    {
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="DateRange"/> class.
+    /// </summary>
+    public DateRange(DateTimeOffset start, DateTimeOffset end)
+    {
+        Start = start;
+        End = end;
+    }
+
     /// <summary>
     /// Determines whether the specified date falls within this date range (inclusive).
     /// </summary>
