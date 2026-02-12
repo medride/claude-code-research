@@ -1,33 +1,47 @@
 {
   "permissions": {
     "allow": [
-      "WebSearch",
-      "mcp__plugin_context7_context7__query-docs",
-      "Bash(git mv:*)",
-      "Bash(dotnet new:*)",
-      "Bash(dotnet sln add:*)",
-      "Bash(dotnet add:*)",
-      "Bash(dir:*)",
-      "Bash(dotnet build:*)",
-      "Bash(test:*)",
-      "Bash(findstr:*)",
-      "Bash(find:*)",
-      "Bash(dotnet clean:*)",
-      "Bash(ls:*)",
-      "Skill(git-commit)",
-      "Bash(git add:*)",
-      "Bash(dotnet restore:*)",
-      "Bash(grep:*)",
-      "Bash(dotnet test:*)"
-    ]
+      "Bash"
+    ],
+    "deny": [
+      "Bash(curl:*)",
+      "Bash(wget:*)",
+      "Bash(Invoke-WebRequest:*)",
+      "Bash(iwr:*)",
+      "Bash(git push --force:*)",
+      "Bash(git push -f:*)",
+      "Bash(git reset --hard:*)",
+      "Bash(format:*)",
+      "Bash(fdisk:*)",
+      "Bash(diskpart:*)",
+      "Bash(reg delete:*)",
+      "Bash(Remove-Item -Recurse:*)",
+      "Bash(rm -rf /*)",
+      "Bash(del /s /q:*)"
+    ],
+    "ask": []
   },
-  "enabledPlugins": {
-    "document-skills@anthropic-agent-skills": true,
-    "example-skills@anthropic-agent-skills": true,
-    "code-review@claude-plugins-official": true,
-    "context7@claude-plugins-official": true,
-    "github@claude-plugins-official": false,
-    "security-guidance@claude-plugins-official": true,
-    "frontend-design@claude-plugins-official": true
+  "hooks": {
+    "Notification": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "powershell -c (New-Object Media.SoundPlayer 'C:\\Windows\\Media\\Windows Critical Stop.wav').PlaySync()"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "powershell -c (New-Object Media.SoundPlayer 'C:\\Windows\\Media\\Windows Critical Stop.wav').PlaySync()"
+          }
+        ]
+      }
+    ]
   }
 }
